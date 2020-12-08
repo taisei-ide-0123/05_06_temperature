@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+
+<body>
+  <h2 id="title">5日間の気温:東京</h2>
+  <p>都市名:
+    <select id="city" name="city">
+      <option value="0" selected="selected">東京都</option>
+      <option value="1">大阪市</option>
+      <option value="2">福岡市</option>
+      <option value="3">ニューヨーク</option>
+      <option value="4">ロンドン</option>
+      <option value="5">リオデジャネイロ</option>
+      <option value="6">シドニー</option>
+      <option value="7">ヨハネスブルグ</option>
+    </select>
+  </p>
+  <!-- chart.js -->
+  <canvas id="myChart"></canvas>
+
+  <script>
+    // XMLHttpRequestオブジェクトの作成
+    let request = new XMLHttpRequest();
+    // URLを開く
+    let cities = ["Tokyo,JP", "Osaka,JP", "Fukuoka,JP", "New York,USA", "London,Uk", "Rio de Janeiro,Brazil",
+      "Sydney,Australia", "Johannesburg,Republic of South Africa"
+    ]
+    let city = cities[0];
+    let apiid = "23cc765d844a6c470290eef17f28d111";
+    let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`;
+    request.open('GET',
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`,
+      true);
+    request.responseType = 'json';
+    // レスポンスが返ってきた時の処理を記述
+    request.onload = function () {
+      // レスポンスが返ってきた時の処理
+      let data = this.response;
+      document.getElementById('title').innerHTML = `<h2>5日間の気温:${data.city.name}</h2>`;
+      console.log(data);
+      console.log(data.city.name);
+      console.log(data.list[0].dt_txt);
+      let ctx = document.getElementById('myChart').getContext('2d');
+      let myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [`${data.list[0].dt_txt}`, `${data.list[8].dt_txt}`, `${data.list[16].dt_txt}`,
+            `${data.list[24].dt_txt}`, `${data.list[32].dt_txt}`
+          ],
+          datasets: [{
+            label: `${data.city.name}`,
+            data: [`${data.list[0].main.temp}`, `${data.list[8].main.temp}`,
+              `${data.list[16].main.temp}`,
+              `${data.list[24].main.temp}`, `${data.list[32].main.temp}`,
+            ],
+            backgroundColor: "rgba(153,255,51,0.4)"
+          }]
+        }
+      });
+    };
+    // リクエストをURLに送信
+    request.send();
+
+    $('#city').change(function () {
+      let r = $('option:selected').val();
+      console.log(r);
+      // XMLHttpRequestオブジェクトの作成
+      let request = new XMLHttpRequest();
+      // URLを開く
+      let cities = ["Tokyo,JP", "Osaka,JP", "Fukuoka,JP", "New York,USA", "London,Uk", "Rio de Janeiro,Brazil",
+        "Sydney,Australia", "Johannesburg,Republic of South Africa"
+      ]
+      let city = cities[r];
+      let apiid = "23cc765d844a6c470290eef17f28d111";
+      let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`;
+      request.open('GET',
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`,
+        true);
+      request.responseType = 'json';
+      // レスポンスが返ってきた時の処理を記述
+      request.onload = function () {
+        // レスポンスが返ってきた時の処理
+        let data = this.response;
+        document.getElementById('title').innerHTML = `<h2>5日間の気温:${data.city.name}</h2>`;
+        console.log(data);
+        console.log(data.city.name);
+        console.log(data.list[0].dt_txt);
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: [`${data.list[0].dt_txt}`, `${data.list[8].dt_txt}`, `${data.list[16].dt_txt}`,
+              `${data.list[24].dt_txt}`, `${data.list[32].dt_txt}`
+            ],
+            datasets: [{
+              label: `${data.city.name}`,
+              data: [`${data.list[0].main.temp}`, `${data.list[8].main.temp}`,
+                `${data.list[16].main.temp}`,
+                `${data.list[24].main.temp}`, `${data.list[32].main.temp}`,
+              ],
+              backgroundColor: "rgba(153,255,51,0.4)"
+            }]
+          }
+        });
+      };
+      // リクエストをURLに送信
+      request.send();
+    });
+  </script>
+
+</body>
+
+</html>
