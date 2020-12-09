@@ -36,7 +36,7 @@
       "Sydney,Australia", "Johannesburg,Republic of South Africa"
     ]
     let city = cities[0];
-    let apiid = "23cc765d844a6c470290eef17f28d111";
+    let apiid = "";
     let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`;
     request.open('GET',
       `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`,
@@ -81,7 +81,7 @@
         "Sydney,Australia", "Johannesburg,Republic of South Africa"
       ]
       let city = cities[r];
-      let apiid = "23cc765d844a6c470290eef17f28d111";
+      let apiid = "";
       let url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`;
       request.open('GET',
         `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiid}&lang=ja&units=metric`,
